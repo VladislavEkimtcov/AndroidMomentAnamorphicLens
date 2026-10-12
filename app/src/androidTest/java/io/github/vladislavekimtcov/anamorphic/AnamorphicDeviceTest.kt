@@ -5,7 +5,11 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.MediaStore
+import android.view.View
+import android.widget.Button
+import android.widget.CheckBox
 import androidx.exifinterface.media.ExifInterface
+import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import io.github.vladislavekimtcov.anamorphic.core.AnamorphicProcessor
@@ -126,6 +130,20 @@ class AnamorphicDeviceTest {
         val exif = resolver.openInputStream(output)!!.use { ExifInterface(it) }
         assertEquals("Pixel 3", exif.getAttribute(ExifInterface.TAG_MODEL))
         assertTrue(resolver.openInputStream(original)!!.use { it.readBytes().isNotEmpty() })
+    }
+
+    @Test
+    fun mainScreenOpensAndSavesSettings() {
+        Settings(context).factor = SqueezeFactor.X133
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                assertTrue(activity.findViewById<View>(R.id.rotate).isShown)
+                assertTrue(activity.findViewById<CheckBox>(R.id.replaceOriginal).isChecked)
+                activity.findViewById<Button>(R.id.factor155).performClick()
+            }
+        }
+        assertEquals(SqueezeFactor.X155, Settings(context).factor)
+        Settings(context).factor = SqueezeFactor.X133
     }
 
     private fun waitForPhoto(name: String): Uri? {
