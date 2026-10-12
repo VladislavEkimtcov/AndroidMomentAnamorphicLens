@@ -1,0 +1,4 @@
+First release.
+- Share a photo to "Stretch" to desqueeze Moment anamorphic lens photos (1.33x or 1.55x).
+- Share to "Unstretch" to undo it.
+- Keeps all EXIF metadata, saves next to the original for Google Photos backup, optionally moves the original to the trash.

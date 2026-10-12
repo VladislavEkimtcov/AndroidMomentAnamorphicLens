@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Anamorphic Desqueeze</string>
+    <string name="share_stretch">Stretch</string>
+    <string name="share_unstretch">Unstretch</string>
+
+    <string name="intro">Desqueezes photos taken through a Moment anamorphic lens (1.33x or 1.55x) with your regular camera app, so you keep its full HDR+ / Night Sight processing. The corrected copy keeps all of the photo\'s metadata (date, location, camera details) and lands next to the original, where Google Photos backs it up.</string>
+
+    <string name="how_to_title">How to use</string>
+    <string name="how_to_steps">1. Shoot with the anamorphic lens in your normal camera app. The photo looks squeezed.\n2. Open it in Google Photos (or any gallery) and tap Share.\n3. Pick <b>Stretch</b> to desqueeze it, or <b>Unstretch</b> to undo a stretch.\n\nNothing else to do: the app has no camera and no internet access.</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="factor_label">Lens squeeze factor</string>
+    <string name="factor_133">1.33x</string>
+    <string name="factor_155">1.55x</string>
+    <string name="factor_help">1.33x turns 4:3 photos into 16:9. Pick 1.55x for Moment\'s 1.55x anamorphic lens.</string>
+    <string name="rotate_label">Rotate 90°</string>
+    <string name="rotate_help">Leave this off if landscape photos come out too narrow (the lens as Moment ships it, flares horizontal in landscape). Turn it on if portrait photos come out too narrow instead: your lens has been turned 90° with the hex tool.</string>
+    <string name="replace_label">Replace original</string>
+    <string name="replace_help">After saving the processed copy, move the original to the trash. Android asks you to confirm, and you can restore it from the trash for 30 days.</string>
+
+    <string name="permission_title">Photo access</string>
+    <string name="permission_granted">Granted. The app can find the original photo to keep its location and to replace it.</string>
+    <string name="permission_missing">Not granted. Without it the app can still stretch photos, but it may not be able to replace the original or keep location data.</string>
+    <string name="permission_grant">Allow photo access</string>
+    <string name="manage_media">Skip delete confirmations</string>
+
+    <string name="about_title">About</string>
+    <string name="about_text">Free and open source (MIT). Not affiliated with Moment. Source code, help and updates: https://github.com/VladislavEkimtcov/AndroidMomentAnamorphicLens</string>
+    <string name="about_version">Version %1$s</string>
+
+    <string name="process_title_stretch">Stretching</string>
+    <string name="process_title_unstretch">Unstretching</string>
+    <string name="process_progress">Photo %1$d of %2$d…</string>
+    <string name="close">Close</string>
+
+    <string name="error_nothing_shared">No photo was shared.</string>
+    <string name="error_out_of_memory">%1$s: not enough memory to process this photo.</string>
+    <string name="error_failed">%1$s could not be processed: %2$s</string>
+
+    <plurals name="done_stretched">
+        <item quantity="one">Stretched %d photo.</item>
+        <item quantity="other">Stretched %d photos.</item>
+    </plurals>
+    <plurals name="done_unstretched">
+        <item quantity="one">Unstretched %d photo.</item>
+        <item quantity="other">Unstretched %d photos.</item>
+    </plurals>
+    <plurals name="originals_trashed">
+        <item quantity="one">Moved %d original to the trash.</item>
+        <item quantity="other">Moved %d originals to the trash.</item>
+    </plurals>
+    <plurals name="originals_kept_by_user">
+        <item quantity="one">Kept %d original.</item>
+        <item quantity="other">Kept %d originals.</item>
+    </plurals>
+    <plurals name="originals_not_found">
+        <item quantity="one">Kept %d original: it isn\'t stored on this device, or photo access is needed to find it.</item>
+        <item quantity="other">Kept %d originals: they aren\'t stored on this device, or photo access is needed to find them.</item>
+    </plurals>
+    <plurals name="already_stretched">
+        <item quantity="one">Skipped %d photo that was already stretched. Use Unstretch first.</item>
+        <item quantity="other">Skipped %d photos that were already stretched. Use Unstretch first.</item>
+    </plurals>
+    <plurals name="not_jpeg">
+        <item quantity="one">Skipped %d file that isn\'t a JPEG photo.</item>
+        <item quantity="other">Skipped %d files that aren\'t JPEG photos.</item>
+    </plurals>
+</resources>

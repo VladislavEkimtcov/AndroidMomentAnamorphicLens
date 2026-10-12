@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- An anamorphic look: a tall oval bokeh crossed by a horizontal lens flare. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="@color/flare"
+        android:pathData="M22,52.5L86,52.5A1.5,1.5 0,0 1,86 55.5L22,55.5A1.5,1.5 0,0 1,22 52.5Z" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M54,33A14,21 0,1 1,54 75A14,21 0,1 1,54 33Z"
+        android:strokeWidth="4.5"
+        android:strokeColor="#FFFFFF" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,50.5A3.5,3.5 0,1 1,54 57.5A3.5,3.5 0,1 1,54 50.5Z" />
+</vector>

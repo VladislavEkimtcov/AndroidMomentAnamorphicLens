@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A photo with arrows pointing outwards. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M44,43L64,43L64,65L44,65Z"
+        android:strokeWidth="3.5"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M39,54L24,54M30,48L24,54L30,60M69,54L84,54M78,48L84,54L78,60"
+        android:strokeWidth="3.5"
+        android:strokeColor="@color/flare"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

@@ -1,0 +1,13 @@
+Shoot through a Moment anamorphic lens with your phone's own camera app, then share the photo to <b>Stretch</b> to get a correctly proportioned, desqueezed copy. Moment's own Android app was discontinued; this free app does the one thing it was still needed for.
+
+<ul>
+<li>1.33x and 1.55x squeeze factors (a 4:3 photo becomes 16:9 with the 1.33x lens)</li>
+<li>Works with photos held in landscape or portrait, and with lenses rotated 90° with the hex tool</li>
+<li>Keeps the date, location, camera details and other EXIF / XMP metadata</li>
+<li>Saves the copy next to the original so Google Photos backs it up</li>
+<li>Optionally moves the squeezed original to the trash</li>
+<li><b>Unstretch</b> undoes a stretch exactly</li>
+<li>No internet permission, no ads, no tracking. Open source (MIT).</li>
+</ul>
+
+Not affiliated with or endorsed by Moment.

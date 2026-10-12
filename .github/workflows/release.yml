@@ -1,0 +1,93 @@
+name: Release
+
+# Publishes a signed APK as a GitHub Release when CI passes on main and the app's
+# versionName has no release yet. Can also be started by hand from the Actions tab.
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+concurrency: release
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Check version and signing secrets
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          version=$(sed -nE 's/^\s*versionName = "(.+)"/\1/p' app/build.gradle.kts)
+          code=$(sed -nE 's/^\s*versionCode = ([0-9]+)/\1/p' app/build.gradle.kts)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          if gh release view "v$version" >/dev/null 2>&1; then
+            echo "Release v$version already exists; nothing to do."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          elif [ -z "$KEYSTORE_BASE64" ]; then
+            echo "::warning::Signing secrets are not configured, so v$version was not published. See README > Releasing."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-java@v4
+        if: steps.check.outputs.publish == 'true'
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+        if: steps.check.outputs.publish == 'true'
+
+      - name: Build signed APK
+        if: steps.check.outputs.publish == 'true'
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          SIGNING_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          SIGNING_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          export SIGNING_KEYSTORE_FILE="$RUNNER_TEMP/release.jks"
+          echo "$KEYSTORE_BASE64" | base64 --decode > "$SIGNING_KEYSTORE_FILE"
+          ./gradlew --stacktrace :core:test :app:assembleRelease
+          rm -f "$SIGNING_KEYSTORE_FILE"
+          apk="AnamorphicDesqueeze-v${{ steps.check.outputs.version }}.apk"
+          cp app/build/outputs/apk/release/app-release.apk "$apk"
+          apksigner="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)/apksigner"
+          "$apksigner" verify --verbose --print-certs "$apk"
+          sha256sum "$apk" > "$apk.sha256"
+          echo "APK=$apk" >> "$GITHUB_ENV"
+
+      - name: Publish GitHub Release
+        if: steps.check.outputs.publish == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="${{ steps.check.outputs.version }}"
+          notes="fastlane/metadata/android/en-US/changelogs/${{ steps.check.outputs.code }}.txt"
+          {
+            echo "## What's new"
+            cat "$notes"
+            echo
+            echo "## Install"
+            echo "Download **$APK** below on your phone and open it (allow installing from your browser or Files app when asked). Requires Android 11 or newer."
+            echo
+            echo "SHA-256: \`$(cut -d' ' -f1 "$APK.sha256")\`"
+          } > release-notes.md
+          gh release create "v$version" "$APK" "$APK.sha256" \
+            --target "${{ github.event.workflow_run.head_sha || github.sha }}" \
+            --title "v$version" \
+            --notes-file release-notes.md
